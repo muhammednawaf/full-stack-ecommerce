@@ -103,9 +103,12 @@ router.get('/edit-product/:id',verifyLogin,(req,res)=>{
 router.post('/edit-product/:id',verifyLogin,(req,res)=>{
   productHelpers.UpdateProduct(req.params.id,req.body).then(()=>{
     res.redirect('/admin/');
-    let image = req.files.Image;
-    if(req.files.Image){
-      image.mv('./public/product-images/' + req.params.id + '.jpeg');
+    if(req.files!=null){
+      let image = req.files.Image;
+      if(req.files.Image){
+        image.mv('./public/product-images/' + req.params.id + '.jpeg');
+      }
+
     }
   })
 })
