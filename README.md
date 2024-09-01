@@ -76,6 +76,8 @@ This is a robust eCommerce application built using Node.js, Express, jQuery, Boo
 
    The application will be accessible at `http://localhost:3000`.
 
+   Note: When you first start the server, there will be no products listed. You will need to manually add products through the admin dashboard.
+
 ## Usage
 
 - **Homepage:** View the list of available products.
