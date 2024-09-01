@@ -1,0 +1,99 @@
+<section>
+    <form id="checkout-form">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="text-center mt-3 mb-3">Delivery Details</h2>
+                    <div class="form-group">
+                        <label for="exampleInputAddress">Address</label>
+                        <input type="text" class="form-control" id="address" placeholder="Enter Address" name="address">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPincode">Pincode</label>
+                        <input type="text" class="form-control" id="pincode" placeholder="Enter Pincode" name="pincode">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputMobile">Mobile</label>
+                        <input type="text" class="form-control" id="mobile" placeholder="Enter Mobile Number" name="mobile">
+                        <input type="text" id="" name="userId" value="{{user._id}}" hidden>
+                    </div>
+
+
+            </div>
+            <div class="col-md-4 mt-4">
+                <div class="container mt-5 ml-5 checkout border border-dark pr-5 pl-5 pt-4 pb-5">
+                    <h5 class="">Total Amount : RS. {{total}}</h5>
+                    <hr>
+                    <div class="payment">
+                        <p>payment method</p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payment-method" id="exampleRadios1"
+                                value="COD" name="payment-method" checked>
+                            <label class="form-check-label" for="exampleRadios1">
+                                COD
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payment-method" id="exampleRadios2"
+                                value="ONLINE" name="payment-method">
+                            <label class="form-check-label" for="exampleRadios2">
+                                Online Payment
+                            </label>
+                            
+                            
+                        </div>
+                        <hr>
+                        <button type="submit" class="btn btn-primary float-right mb-5">Submit</button>
+                    </div>
+                </div>
+
+            </div>
+            
+
+
+        </div>
+        </form>
+</section>
+<script>
+    $("#checkout-form").submit((e)={
+        e.preventDefault();
+        $.ajax({
+            url:'/place-order',
+            method:'post',
+            data:$('#checkout-form').serialize(),
+            success(response){
+                if(response.CodStatus){
+                    location.href='/order-success';
+                }
+                else{
+                    razorpayPayment(response);
+
+                }
+            }
+        })
+    })
+    function razorpayPayment(order){
+        const options = {
+        key: 'rzp_test_OBYVbsMPplTq7D', // Replace with your Razorpay key_id
+        amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        currency: 'INR',
+        name: 'Necsoft',
+        description: 'Test Transaction',
+        order_id: order.id, // This is the order_id created in the backend
+        callback_url: 'http://localhost:3000/verify-payment', // Your success URL
+        prefill: {
+          name: 'Gaurav Kumar',
+          email: 'gaurav.kumar@example.com',
+          contact: '9999999999'
+        },
+        theme: {
+          color: '#F37254'
+        },
+      };
+      const rzp = new Razorpay(options);
+      rzp.open();
+      
+
+
+    }
+</script>

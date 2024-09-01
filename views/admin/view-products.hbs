@@ -1,0 +1,43 @@
+<section>
+    <div class="container mt-3">
+
+        <div class="row mt-2">
+            <div class="col text-end">
+                <a href="/admin/add-product"><button type="button" class="btn btn-success">Add Product</button></a>
+            </div>
+        </div>
+
+        <table class="table mt-4" id="productsTable">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">description</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each products}}
+                <tr>
+                    <th scope="row">1</th>
+                    <td>{{this.name}}</td>
+                    <td>{{this.category}}</td>
+                    <td>{{this.description}}</td>
+                    <td><img style="width: 50px; hieght: 50px;" src="/product-images/{{this._id}}.jpeg" alt=""></td>
+                    <td>
+                     <a href="/admin/edit-product/{{this._id}}" class="btn btn-danger">Edit</a>
+                     <a href="/admin/delete-product/{{this._id}}" class="btn btn-primary" onclick="return confirm('Do you want to delete {{this.name}}')">Delete</a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</section>
+<script>
+   let table = new DataTable('#productsTable', {
+    // options
+  });
+</script>
